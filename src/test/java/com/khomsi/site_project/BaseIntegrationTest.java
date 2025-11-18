@@ -6,5 +6,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/test-data.sql")
 public abstract class BaseIntegrationTest {
 }
