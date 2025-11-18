@@ -17,7 +17,7 @@ public class ProductRepositoryTest extends BaseIntegrationTest{
 
     @Test
     public void testFindByAlias() {
-        String alias = "samsung";
+        String alias = "phones";
 
         Product product = productRepository.findByAlias(alias);
 

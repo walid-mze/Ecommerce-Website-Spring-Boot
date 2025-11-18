@@ -20,7 +20,7 @@ INSERT IGNORE INTO category (id, title, alias, enabled, image, parent_id, all_pa
 
 -- Insert users (required for order basket tests)
 INSERT IGNORE INTO user (id, login, email, password, role) VALUES
-(1, 'testuser', 'test@example.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 'ROLE_USER'),
+(1, 'admin', 'test@example.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 'ROLE_USER'),
 (999, 'testuser999', 'test999@example.com', '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 'ROLE_USER');
 
 -- Insert products (with valid vendor_id and category_id)
@@ -32,7 +32,7 @@ INSERT IGNORE INTO product (id, title, alias, description, price, image, categor
 (999, 'Test Product 999', 'test-product-999', 'Test Description 999', 99.99, 'test999.jpg', 999, 999),
 -- Products for search test (containing searchable keywords)
 (3, 'iPhone 14 Pro', 'iphone-14-pro', 'Latest Apple smartphone with amazing features', 999.99, 'iphone14.jpg', 3, 1),
-(4, 'Samsung Galaxy S23', 'samsung-galaxy-s23', 'Powerful Samsung phone', 899.99, 'galaxy-s23.jpg', 3, 2),
+(4, 'Samsung Galaxy S23', 'phones', 'Powerful Samsung phone', 899.99, 'galaxy-s23.jpg', 3, 2),
 (5, 'MacBook Pro', 'macbook-pro', 'Apple laptop for professionals', 1999.99, 'macbook.jpg', 4, 1),
 (6, 'Dell XPS 15', 'dell-xps-15', 'High performance Dell laptop', 1499.99, 'xps15.jpg', 4, 3);
 
