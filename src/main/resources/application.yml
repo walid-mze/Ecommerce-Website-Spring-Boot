@@ -16,12 +16,8 @@ spring:
     username: senkoShop@outlook.com
     password: Midostar10035
     properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 server:
   port: 8084
-
