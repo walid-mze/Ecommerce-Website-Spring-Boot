@@ -9,11 +9,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class CategoryRepoTest {
+public class CategoryRepoTest extends BaseIntegrationTest{
     @Autowired
     private CategoryRepository categoryRep;
 
@@ -28,7 +27,7 @@ public class CategoryRepoTest {
 
     @Test
     void categoryFindByAlias() {
-        String alias = "protectors";
+        String alias = "electronics";
 
         Category category = categoryRep.findByAliasEnabled(alias);
 
