@@ -17,11 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Rollback(value = false)
-public class ProductTest {
+public class ProductTest extends BaseIntegrationTest{
     @Autowired
     private ProductRepository productRepo;
 
