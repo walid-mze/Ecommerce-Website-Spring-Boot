@@ -1,92 +1,66 @@
 pipeline{
- agent any
+    agent any
 
- tools {
- maven 'Maven'
- jdk 'JDK-17'
- }
+    tools {
+        maven 'Maven'
+        jdk 'JDK-17'
+    }
 
- environment {
- MAVEN_OPTS = '-Xmx1024m' //max memory allowed
- //SCANNER_HOME = tool 'SonarScanner'
- }
+    environment {
+        MAVEN_OPTS = '-Xmx1024m'
+    }
 
- stages {
- stage('1. Cloner le repo') {
- steps {
- echo 'Clonage du repository depuis GitHub...'
- checkout scm
- }
- }
+    stages {
+        stage('1. Cloner le repo') {
+            steps {
+                echo 'Clonage du repository depuis GitHub...'
+                checkout scm
+            }
+        }
 
- stage('2. Compiler le projet') {
- steps {
- echo 'Compilation du projet Maven...'
- bat 'mvn clean compile'
- }
- }
+        stage('2. Compiler le projet') {
+            steps {
+                echo 'Compilation du projet Maven...'
+                bat 'mvn clean compile'
+            }
+        }
 
- stage('3. Lancer les tests unitaires') {
- steps {
- echo 'Exécution des tests unitaires...'
- script {
- // Start MySQL service if not running
- bat '''
- net start MySQL80 || echo MySQL already running
- '''
- }
- bat 'mvn test'
- }
- post {
- always {
- junit allowEmptyResults: true, testResults:
-'**/target/surefire-reports/*.xml'
- }
- }
- }
+        stage('3. Lancer les tests unitaires') {
+            steps {
+                echo 'Exécution des tests unitaires...'
+                // Run tests without trying to start MySQL
+                bat 'mvn test'
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
 
- stage('4. Générer le package WAR/JAR') {
- steps {
- echo 'Création du package WAR...'
- bat 'mvn package -DskipTests'
- }
- post {
- success {
- archiveArtifacts artifacts: '**/target/*.war',
-allowEmptyArchive: true, fingerprint: true
- }
- }
- }
+        stage('4. Générer le package WAR/JAR') {
+            steps {
+                echo 'Génération du package...'
+                bat 'mvn package -DskipTests'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true, fingerprint: true
+                }
+            }
+        }
+    }
 
-//  stage('5. Analyse SonarQube') {
-//  steps {
-//  echo 'Lancement de l\'analyse SonarQube...'
-//  withSonarQubeEnv('SonarQube') {
-//  bat 'mvn sonar:sonar'
-//  }
-//  }
-//  }
-
-//  stage('6. Quality Gate') {
-//  steps {
-//  echo 'Vérification du Quality Gate...'
-//  timeout(time: 5, unit: 'MINUTES') {
-//  waitForQualityGate abortPipeline: true
-//  }
-//  }
-//  }
- }
-
- post {
- success {
- echo '✓ Pipeline exécuté avec succès!'
- }
- failure {
- echo '✗ Le pipeline a échoué.'
- }
- always {
- echo 'Nettoyage de l\'espace de travail...'
- cleanWs()
- }
- }
+    post {
+        always {
+            echo 'Nettoyage de l\'espace de travail...'
+            cleanWs()
+        }
+        success {
+            echo '✓ Le pipeline a réussi.'
+        }
+        failure {
+            echo '✗ Le pipeline a échoué.'
+        }
+    }
 }
