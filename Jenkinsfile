@@ -29,6 +29,12 @@ pipeline{
  stage('3. Lancer les tests unitaires') {
  steps {
  echo 'Exécution des tests unitaires...'
+ script {
+ // Start MySQL service if not running
+ bat '''
+ net start MySQL80 || echo MySQL already running
+ '''
+ }
  bat 'mvn test'
  }
  post {
